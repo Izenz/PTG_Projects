@@ -1,4 +1,8 @@
 // Ejercicios 1, 2 y 3 (tema 1, parte 1)
+
+// Joel Herraiz 
+// Gonzalo Fontestad
+
 #include <GL/glut.h>
 
 const GLfloat SUN_SCALE = 4.0f;
