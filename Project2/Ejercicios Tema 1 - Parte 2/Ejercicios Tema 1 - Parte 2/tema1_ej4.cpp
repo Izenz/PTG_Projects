@@ -95,17 +95,30 @@ bool init()
 	glClearDepth(1.0f);
 
 	// Tarea por hacer: Activar la iluminación.
-	// ....
+	// glEnable(GL_LIGHTING);
 	
 	// Tarea por hacer: definir 3 luces.
-	/*
 	// 1º luz: puntual
 	glLightfv(GL_LIGHT0, GL_POSITION, luzLocal);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, intensidadLuz);
-	...
-	*/
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, intensidadLuz);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, intensidadLuz);
 
+	// 2ª luz: focal
+	glLightfv(GL_LIGHT1, GL_POSITION, luzLocal);
+	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, direccionFoco);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, amplitudFoco);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, intensidadLuz);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, intensidadLuz);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, intensidadLuz);
+	
+	// 3ª luz: Direccional
+	glLightfv(GL_LIGHT2, GL_POSITION, luzDireccional);
+	glLightfv(GL_LIGHT2, GL_AMBIENT, intensidadLuz);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, intensidadLuz);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, intensidadLuz);
 
+		
 	/*
 	
 	// Tarea por hacer: Crear el obj. textura, cargar la imagen tga, activar la textura, cargar los datos en el objeto textura y definir filtros, modo repetición y modo pegado
