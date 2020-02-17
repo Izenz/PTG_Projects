@@ -2,7 +2,7 @@
 
 #include <GL/glut.h>
 #include <iostream>
-//#include "tga.h"
+#include "tga.h"
 
 void drawPlane();
 bool init();
@@ -129,7 +129,8 @@ bool init()
 	TGAFILE tgaImage[1];
 	glGenTextures (1, &texture_id);  
 	std::cout << "Cargando la textura metalSheetDiffuse.tga" << std::endl;
-	if ( LoadTGAFile("metalSheetDiffuse.tga", &tgaImage[0]) )
+	char pc[] = "metalSheetDiffuse.tga";
+	if ( LoadTGAFile(pc, &tgaImage[0]) )
     {
 	   glBindTexture(GL_TEXTURE_2D, texture_id);
 	   
@@ -143,11 +144,14 @@ bool init()
 		//				 GL_UNSIGNED_BYTE,		// color component format
 		//				 tgaImage[0].imageData);	// pointer to texture image
 
+	   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	   glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	   ....
+	   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	   glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPEAT);
     }
    else
-	   std::cout << "Error al cargar la textura stoneDiffuse.tga" << std::endl;
+	   std::cout << "Error al cargar la textura metalSheetDiffuse.tga" << std::endl;
 
 	return true;
 }
@@ -179,6 +183,14 @@ void display()
 
 	glShadeModel(smoothingActivated ? GL_SMOOTH : GL_FLAT);
 	
+	if (textureActivated) {
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, texture_id);
+	}
+	else {
+		glDisable(GL_TEXTURE_2D);
+	}
+
 	// Tarea por hacer: Activar el material antes de dibujar los objetos de la escena.
 	glMaterialfv(GL_FRONT, GL_AMBIENT, colorAmbient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
@@ -187,8 +199,9 @@ void display()
 	//glColor4fv(colorBronzeDiff); // Color de los objetos dibujados en la escena
 	
 	
-	drawPlane();
+	
 	glutSolidTeapot(0.5f);
+	drawPlane();
 	//glutWireTeapot(0.5f);
 	//glutSolidCube(0.5f);
 	//glutWireCube(0.5f);
@@ -200,6 +213,7 @@ void display()
 	//glutWireTorus(0.25, 0.5, 10, 20);
 
 	glPopMatrix();
+	glFlush();
 	glutSwapBuffers();
 }
  
