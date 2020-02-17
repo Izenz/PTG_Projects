@@ -41,6 +41,7 @@ GLuint texture_id;
 
 GLboolean lightningActivated = false;
 GLboolean smoothingActivated = false;
+GLboolean textureActivated = false;
 GLint activeLight = 0;
 
 int main(int argc, char *argv[])
@@ -122,7 +123,6 @@ bool init()
 	glLightfv(GL_LIGHT2, GL_SPECULAR, intensidadLuz);
 
 	glEnable(GL_LIGHT0);
-	/*
 	
 	// Tarea por hacer: Crear el obj. textura, cargar la imagen tga, activar la textura, cargar los datos en el objeto textura y definir filtros, modo repetición y modo pegado
 	// Inicializa Texturas
@@ -148,7 +148,6 @@ bool init()
     }
    else
 	   std::cout << "Error al cargar la textura stoneDiffuse.tga" << std::endl;
-	*/
 
 	return true;
 }
@@ -271,6 +270,7 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 't': case 'T': 
 		// Tarea por hacer: activa/desactiva textura
+		textureActivated = !textureActivated;
 		break;
 	case 'm': case 'M':
 		// Tarea por hacer: modo de pegado de la textura
