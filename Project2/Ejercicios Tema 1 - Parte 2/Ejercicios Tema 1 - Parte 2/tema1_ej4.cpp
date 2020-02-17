@@ -39,6 +39,9 @@ const GLfloat amplitudFoco = 10.0f; //grados
 // Id de la textura
 GLuint texture_id; 
 
+GLboolean lightningActivated = false;
+GLboolean smoothingActivated = false;
+GLint activeLight = 0;
 
 int main(int argc, char *argv[])
 {
@@ -118,7 +121,7 @@ bool init()
 	glLightfv(GL_LIGHT2, GL_DIFFUSE, intensidadLuz);
 	glLightfv(GL_LIGHT2, GL_SPECULAR, intensidadLuz);
 
-		
+	glEnable(GL_LIGHT0);
 	/*
 	
 	// Tarea por hacer: Crear el obj. textura, cargar la imagen tga, activar la textura, cargar los datos en el objeto textura y definir filtros, modo repetición y modo pegado
@@ -168,9 +171,21 @@ void display()
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
 	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
  
+	if (lightningActivated) {
+		glEnable(GL_LIGHTING);
+	}
+	else {
+		glDisable(GL_LIGHTING);
+	}
 
+	glShadeModel(smoothingActivated ? GL_SMOOTH : GL_FLAT);
+	
 	// Tarea por hacer: Activar el material antes de dibujar los objetos de la escena.
-	glColor4fv(colorBronzeDiff); // Color de los objetos dibujados en la escena
+	glMaterialfv(GL_FRONT, GL_AMBIENT, colorAmbient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
+	glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);
+	//glColor4fv(colorBronzeDiff); // Color de los objetos dibujados en la escena
 	
 	
 	drawPlane();
@@ -227,12 +242,32 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'l': case 'L': 
 		// Tarea por hacer: activar/desctivar la iluminación.
+		lightningActivated = !lightningActivated;
 		break;
 	case 's': case 'S': 
 		// Tarea por hacer: cambiar el modo de sombreado (de suave a plano y viceversa).
+		smoothingActivated = !smoothingActivated;
 		break;
 	case 'c': case 'C':
 		// Tarea por hacer: cambiar la luz activa.
+		++activeLight;
+		if (activeLight > 2)
+			activeLight = 0;
+
+		glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHT1);
+		glDisable(GL_LIGHT2);
+		switch (activeLight) {
+		case 0:
+			glEnable(GL_LIGHT0);
+			break;
+		case 1:
+			glEnable(GL_LIGHT1);
+			break;
+		case 2:
+			glEnable(GL_LIGHT2);
+			break;
+		}
 		break;
 	case 't': case 'T': 
 		// Tarea por hacer: activa/desactiva textura

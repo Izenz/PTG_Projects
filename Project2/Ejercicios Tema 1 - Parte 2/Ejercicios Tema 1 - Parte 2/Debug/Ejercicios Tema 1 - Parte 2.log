@@ -1,3 +1,3 @@
 ﻿  tema1_ej4.cpp
-C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project2\Ejercicios Tema 1 - Parte 2\Ejercicios Tema 1 - Parte 2\tema1_ej4.cpp(69,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project2\Ejercicios Tema 1 - Parte 2\Ejercicios Tema 1 - Parte 2\tema1_ej4.cpp(72,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   Ejercicios Tema 1 - Parte 2.vcxproj -> C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project2\Ejercicios Tema 1 - Parte 2\Debug\Ejercicios Tema 1 - Parte 2.exe
