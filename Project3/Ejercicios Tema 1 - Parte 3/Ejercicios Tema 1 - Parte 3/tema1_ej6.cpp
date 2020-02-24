@@ -5,7 +5,7 @@
 #include <ctime>
 #include <cstdlib>
 
-
+int state = 0;
 //  Número de frames
 int frameCount = 0;
 //  Número de frames por segundo
@@ -22,6 +22,8 @@ bool init();
 void display();
 void resize(int, int);
 void idle();
+void enable();
+void disable();
 void keyboard(unsigned char, int, int);
 void specialKeyboard(int, int, int);
 void mouse(int, int, int, int);
@@ -274,6 +276,8 @@ void drawMultipleCubes()
 	float x, y, z;
 	float scale = (RangoFin - RangoIni) / (N * 3);
 
+	enable();
+
 	for ( int i = 0; i < N; i ++ )
 	{
 		x = RangoIni + i * (RangoFin - RangoIni) / (N - 1);
@@ -286,11 +290,26 @@ void drawMultipleCubes()
 				glPushMatrix();
 					glTranslatef(x,y,z);
 					glScalef(scale,scale,scale);
-					draw1Cube();
+
+					switch (state) {
+					case 0:
+						draw1Cube();
+						break;
+					case 1:
+						glDrawArrays(GL_TRIANGLES, 0, 36);
+						break;
+					case 2:
+						glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
+						break;
+					case 3:
+						glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
+						break;
+					}
 				glPopMatrix();
 			}
 		}
 	}
+	disable();
 }
 
 
@@ -320,13 +339,67 @@ void display()
 	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
 	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
 
-	draw1Cube();
-	// drawMultipleCubes();
+	// draw1Cube();
+	drawMultipleCubes();
 
 	printFPS();
 	glutSwapBuffers();
 }
- 
+
+void disable() {
+	switch (state) {
+	case 0:
+
+		break;
+	case 1:
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		break;
+	case 2:
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_INDEX_ARRAY);
+		break;
+	case 3:
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		break;
+	case 4:
+		break;
+	}
+}
+
+void enable() {
+	switch (state) {
+		case 0:
+
+			break;
+		case 1:
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
+			glVertexPointer(3, GL_FLOAT, 0, vertices1);
+			glColorPointer(3, GL_FLOAT, 0, colores1);
+			break;
+		case 2:
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
+			glEnableClientState(GL_INDEX_ARRAY);
+			glVertexPointer(3, GL_FLOAT, 0, vertices2);
+			glColorPointer(3, GL_FLOAT, 0, colores2);
+			break;
+		case 3:
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
+			glEnableClientState(GL_INDEX_ARRAY);
+			glVertexPointer(3, GL_FLOAT, 6 * sizeof(GL_FLOAT), vertices3);
+			glColorPointer(3, GL_FLOAT, 6 * sizeof(GL_FLOAT), &vertices3[3]);
+			break;
+		case 4:
+			break;
+	}
+
+}
+
 void resize(int w, int h)
 {
 	glMatrixMode(GL_PROJECTION);
@@ -365,6 +438,18 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'a': case 'A':
 		animation = !animation;
+		break;
+	case '0':
+		state = 0;
+		break;
+	case '1':
+		state = 1;
+		break;
+	case '2':
+		state = 2;
+		break;
+	case '3':
+		state = 3;
 		break;
 	}
 }
@@ -415,7 +500,7 @@ void mouseMotion(int x, int y)
 void printFPS()
 {
 	std::cout.precision(4);
-	std::cout << fps << std::endl;
+	std::cout << "State: " << state << " -->" << fps << std::endl;
 }
 
 //-------------------------------------------------------------------------
