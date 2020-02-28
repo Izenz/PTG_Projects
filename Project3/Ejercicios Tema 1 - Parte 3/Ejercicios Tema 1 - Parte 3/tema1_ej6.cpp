@@ -6,6 +6,15 @@
 #include <cstdlib>
 
 int state = 0;
+
+GLuint vboVertex;
+GLuint vboVertex2;
+GLuint vboColor;
+GLuint vboColor2;
+GLuint vboVertexColor;
+GLuint vboIndex;
+GLuint vboIndex2;
+
 //  Número de frames
 int frameCount = 0;
 //  Número de frames por segundo
@@ -17,6 +26,9 @@ void printFPS();
 
 void draw1Cube();
 void drawMultipleCubes();
+
+GLuint initVBOfloat(int dataSize, GLfloat *vertexData);
+GLuint initVBOubyte(int dataSize, GLubyte *vertexData);
 
 bool init();
 void display();
@@ -304,6 +316,15 @@ void drawMultipleCubes()
 					case 3:
 						glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
 						break;
+					case 4:
+						glDrawArrays(GL_TRIANGLES, 0, 36);
+						break;
+					case 5:
+						glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (char*)NULL + 0);
+						break;
+					case 6:
+						glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (char*)NULL + 0);
+						break;
 					}
 				glPopMatrix();
 			}
@@ -322,6 +343,19 @@ bool init()
 	glClearDepth(1.0f);
 
 	glShadeModel(GL_SMOOTH);
+
+	vboVertex = initVBOfloat(108, vertices1);
+	vboColor = initVBOfloat(108, colores1);
+
+	vboVertex2 = initVBOfloat(36, vertices2);
+	vboColor2 = initVBOfloat(36, colores2);
+	vboIndex = initVBOubyte(36, indices);
+
+	vboVertexColor = initVBOfloat(72, vertices3);
+	vboIndex2 = initVBOubyte(36, indices);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	return true;
 }
@@ -365,9 +399,45 @@ void disable() {
 		glDisableClientState(GL_COLOR_ARRAY);
 		break;
 	case 4:
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		break;
+	case 5:
+	case 6:
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_INDEX_ARRAY);
+		break;
+	case 7:
 		break;
 	}
 }
+
+GLuint initVBOfloat(int dataSize, GLfloat *vertexData) {
+	GLuint VBOBuffers;
+
+	glGenBuffers(1, &VBOBuffers);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
+	glBufferData(GL_ARRAY_BUFFER, dataSize*sizeof(GL_FLOAT), vertexData, GL_STATIC_DRAW);
+
+	//delete [] vertexData;
+	return VBOBuffers;
+}
+
+GLuint initVBOubyte(int dataSize, GLubyte *vertexData) {
+	GLuint VBOBuffers;
+
+	glGenBuffers(1, &VBOBuffers);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBOBuffers);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, dataSize * sizeof(GL_UNSIGNED_BYTE), vertexData, GL_STATIC_DRAW);
+
+	//delete [] vertexData;
+	return VBOBuffers;
+}
+
 
 void enable() {
 	switch (state) {
@@ -395,6 +465,31 @@ void enable() {
 			glColorPointer(3, GL_FLOAT, 6 * sizeof(GL_FLOAT), &vertices3[3]);
 			break;
 		case 4:
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
+			glVertexPointer(3, GL_FLOAT, 0, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, vboColor);
+			glColorPointer(3, GL_FLOAT, 0, 0);
+			break;
+		case 5:
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
+			glEnableClientState(GL_INDEX_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, vboVertex2);
+			glVertexPointer(3, GL_FLOAT, 0, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, vboColor2);
+			glColorPointer(3, GL_FLOAT, 0, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndex);
+			break;
+		case 6:
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
+			glEnableClientState(GL_INDEX_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, vboVertexColor);
+			glVertexPointer(3,  GL_FLOAT, 6 * sizeof(GL_FLOAT), (char*)NULL + 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIndex2);
+			glColorPointer(3, GL_FLOAT, 6 * sizeof(GL_FLOAT), (char*)NULL + 3 * sizeof(GL_FLOAT));
 			break;
 	}
 
@@ -450,6 +545,15 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case '3':
 		state = 3;
+		break;
+	case '4':
+		state = 4;
+		break;
+	case '5':
+		state = 5;
+		break;
+	case '6':
+		state = 6;
 		break;
 	}
 }
