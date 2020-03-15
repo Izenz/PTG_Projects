@@ -5,8 +5,8 @@
   GLM: perspectiveFov function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: infinitePerspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: tweakedInfinitePerspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(368,28): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(376,21): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(376,21): warning C4305: GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(376,21): warning C4305: GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(385,28): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(393,21): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(393,21): warning C4305: GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Project1\tema2_parte2.cpp(393,21): warning C4305: GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   Project1.vcxproj -> C:\Users\Joel\Desktop\Repositories\PTG_Projects\Project5\Project1\Debug\Project1.exe

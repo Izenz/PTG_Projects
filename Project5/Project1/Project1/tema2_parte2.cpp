@@ -58,6 +58,9 @@ GLuint locUniformUmbral;
 GLuint locUniformStone, locUniformMoss, locUniformUseTexture;
 GLuint locColorMatrix;
 GLuint locUmbral;
+GLuint locStoneTex;
+GLuint locMossTex;
+GLuint locTextureSelection;
 GLuint vaoHandle;
 GLuint programShaderID;
 GLuint vertexShaderID;
@@ -66,6 +69,7 @@ GLuint loc3;
 GLuint loc5;
 
 int numVertTeapot;
+int textureSelection = 0;
 GLboolean KEY_P_PRESSED = false;
 GLboolean KEY_D_PRESSED = false;
 GLboolean colorRotationActivated = false;
@@ -337,6 +341,11 @@ bool init()
 	if ( LoadTGAFile(stone, &tgaImage) )
 	{
 	   // Tarea a realizar (ejercicio 5): Activar la unidad de textura, enlazar el objeto textura, cargar en él los datos de la imagen y definir los parámetros de la textura
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textIds[0]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tgaImage.imageWidth, tgaImage.imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, tgaImage.imageData);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
 	else std::cout << "Error al cargar la textura 'stone.tga'" << std::endl;
 	
@@ -344,6 +353,11 @@ bool init()
 	if ( LoadTGAFile(moss, &tgaImage) )
 	{
 	   // Tarea a realizar (ejercicio 5): Activar la unidad de textura, enlazar el objeto textura, cargar en él los datos de la imagen y definir los parámetros de la textura
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, textIds[1]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tgaImage.imageWidth, tgaImage.imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, tgaImage.imageData);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
 	else std::cout << "Error al cargar la textura 'moss.tga'" << std::endl;	
 	
@@ -352,6 +366,9 @@ bool init()
 	locColorMatrix = glGetUniformLocation(programShaderID, "uColorRotationMatrix");
 	loc5 = glGetUniformLocation(programShaderID, "uRadius");
 	locUmbral = glGetUniformLocation(programShaderID, "uUmbral");
+	locStoneTex = glGetUniformLocation(programShaderID, "uStoneTexture");
+	locMossTex = glGetUniformLocation(programShaderID, "uMossTexture");
+	locTextureSelection = glGetUniformLocation(programShaderID, "uTexSelection");
 
 	return true;
 }
@@ -397,6 +414,9 @@ void display()
 	glUniformMatrix4fv(locColorMatrix, 1, GL_FALSE, &mColorRotation[0][0]);
 	glUniform1f(loc5, radius);
 	glUniform1f(locUmbral, umbralValue);
+	glUniform1i(locStoneTex, 0);
+	glUniform1i(locMossTex, 1);
+	glUniform1i(locTextureSelection, textureSelection);
 	// Tarea por hacer (ejer. 4): Pasarle al vertex shader mvp y el resto de variables uniform
 	drawTeapot();
 	// Tarea por hacer (ejer. 4): Desactivar el objeto programa	
@@ -440,6 +460,10 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'd': case 'D':
 		KEY_D_PRESSED = !KEY_D_PRESSED;
+		break;
+	case 'm': case 'M':
+		textureSelection++;
+		textureSelection %= 3;
 		break;
 	// Tarea por hacer (ejer. 4): Activar las tareas asociadas a las teclas 'p', 'r', 'd' y 'm'.
 	}
