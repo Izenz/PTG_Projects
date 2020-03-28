@@ -54,11 +54,11 @@ GLuint teapotVAOHandle;
 GLuint programID;
 GLuint locUniformMap;
 GLuint locUniformMVPM, locUniformMVM, locUniformMM, locUniformNM;
-GLuint locUniformDrawSky, locUniformCamera, locUniformChromatic;
+GLuint locUniformDrawSky, locUniformCamera, locUniformChromatic, locUniformFresnel;
 
 int numVertTeapot, numVertSphere;
 
-GLuint TEXTURE_NUMBER = 1, drawSky, applyChromaticDispersion;
+GLuint TEXTURE_NUMBER = 1, drawSky, applyChromaticDispersion, applyFresnel;
 GLboolean APPLY_CRYSTAL_MAT = false, ACTIVATE_CHROMATIC_DISPERSION = false, ACTIVATE_FRESNEL = false;
 const std::string TEXTURE_CUBE_MAP_ARRAY[] = {"posx", "negx", "posy", "negy", "posz", "negz"};
 const GLenum TEXTURE_CUBE_MAP_ENUM[] = {
@@ -536,6 +536,7 @@ bool init()
 	locUniformDrawSky = glGetUniformLocation(programID, "uDrawSky");
 	locUniformMap = glGetUniformLocation(programID, "uTexMap");
 	locUniformChromatic = glGetUniformLocation(programID, "uApplyChromaticDispersion");
+	locUniformFresnel = glGetUniformLocation(programID, "uApplyFresnel");
 
 	return true;
 }
@@ -564,6 +565,7 @@ void display()
 
 	drawSky = 0;
 	applyChromaticDispersion = 0;
+	applyFresnel = 0;
 
 	glUniform3fv(locUniformCamera, 1, &cameraPos[0]);
 	glUniform1i(locUniformMap, 0);
@@ -584,6 +586,7 @@ void display()
 
 	drawSky = APPLY_CRYSTAL_MAT ? 2 : 1;
 	applyChromaticDispersion = ACTIVATE_CHROMATIC_DISPERSION ? 1 : 0;
+	applyFresnel = ACTIVATE_FRESNEL ? 1 : 0;
 
 	// Dibuja la esfera que refleja/refracta el entorno
 	mvp = Projection * View * ModelSphere;
@@ -595,6 +598,7 @@ void display()
 	glUniformMatrix3fv(locUniformNM, 1, GL_FALSE, &nm[0][0]);
 	glUniform1i(locUniformDrawSky, drawSky);
 	glUniform1i(locUniformChromatic, applyChromaticDispersion);
+	glUniform1i(locUniformFresnel, applyFresnel);
 
 	drawSphere();
 
@@ -608,6 +612,7 @@ void display()
 	glUniformMatrix3fv(locUniformNM, 1, GL_FALSE, &nm[0][0]);
 	glUniform1i(locUniformDrawSky, drawSky);
 	glUniform1i(locUniformChromatic, applyChromaticDispersion);
+	glUniform1i(locUniformFresnel, applyFresnel);
 
 	drawTeapot();
 
@@ -621,6 +626,7 @@ void display()
 	glUniformMatrix3fv(locUniformNM, 1, GL_FALSE, &nm[0][0]);
 	glUniform1i(locUniformDrawSky, drawSky);
 	glUniform1i(locUniformChromatic, applyChromaticDispersion);
+	glUniform1i(locUniformFresnel, applyFresnel);
 
 	drawCube();
 

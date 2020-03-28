@@ -7,4 +7,4 @@
   GLM: tweakedInfinitePerspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  T3_Exercises_1.vcxproj -> C:\Users\Izen\Desktop\Ej3\Parte 1\T3_Exercises_1\Debug\T3_Exercises_1.exe
+  T3_Exercises_1.vcxproj -> D:\UV 2.0\UNIVERSIDAD\4º\2º CUATRIMESTRE\PTG\PRÁCTICAS\PTG_Projects\Project6\T3_Exercises_1\Debug\T3_Exercises_1.exe
