@@ -1,10 +1,1 @@
-﻿  tema3_parte1.cpp
-  GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: rotate_slow function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: perspectiveFov function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: infinitePerspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: tweakedInfinitePerspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  T3_Exercises_1.vcxproj -> D:\UV 2.0\UNIVERSIDAD\4º\2º CUATRIMESTRE\PTG\PRÁCTICAS\PTG_Projects\Project6\T3_Exercises_1\Debug\T3_Exercises_1.exe
+﻿  T3_Exercises_1.vcxproj -> C:\Users\Izen\Desktop\Repositories\PTG_Projects\Project6\T3_Exercises_1\Debug\T3_Exercises_1.exe

@@ -149,10 +149,6 @@
     <ClInclude Include="vboteapot.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="tema3_parte1.frag" />
-    <None Include="tema3_parte1.vert" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="texturas\t1negx.tga" />
     <Image Include="texturas\t1negy.tga" />
     <Image Include="texturas\t1negz.tga" />
@@ -171,6 +167,10 @@
     <Image Include="texturas\t3posx.tga" />
     <Image Include="texturas\t3posy.tga" />
     <Image Include="texturas\t3posz.tga" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tema3_parte1.frag" />
+    <None Include="tema3_parte1.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

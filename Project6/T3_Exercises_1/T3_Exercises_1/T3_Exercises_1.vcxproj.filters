@@ -40,14 +40,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="tema3_parte1.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="tema3_parte1.vert">
-      <Filter>Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="texturas\t1negx.tga">
       <Filter>Archivos de recursos</Filter>
     </Image>
@@ -102,5 +94,13 @@
     <Image Include="texturas\t3posz.tga">
       <Filter>Archivos de recursos</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tema3_parte1.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="tema3_parte1.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
