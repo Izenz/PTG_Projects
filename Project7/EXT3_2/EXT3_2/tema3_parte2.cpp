@@ -52,8 +52,12 @@ GLuint programID;
 GLuint locUniformMVPM, locUniformMVM, locUniformNM;
 GLuint locUniformLightPos, locUniformLightIntensity, locUniformLightK, locUniformLightDir, locUniformLightcutOffInt, locUniformLightcutOffExt;
 GLuint locUniformMaterialAmbient, locUniformMaterialDiffuse, locUniformMaterialSpecular, locUniformMaterialShininess;
+GLuint locUniformShading, locUniformLightType;
 
 int numVertTeapot, numVertSphere, numVertPlane, numVertTorus;
+int SHADING_TYPE = 0;
+bool LIGHT_TYPE = false;
+
 
 GLuint textIds[3];
 
@@ -551,7 +555,8 @@ bool init()
 	locUniformMaterialDiffuse = glGetUniformLocation(programID, "uMaterial.diffuse");
 	locUniformMaterialSpecular = glGetUniformLocation(programID, "uMaterial.specular");
 	locUniformMaterialShininess = glGetUniformLocation(programID, "uMaterial.shininess");
-
+	locUniformShading = glGetUniformLocation(programID, "uShading");
+	locUniformLightType = glGetUniformLocation(programID, "uLightType");
 
 	return true;
 }
@@ -575,8 +580,8 @@ void display()
 						glm::vec3(1.0f, 1.0f, 1.0f), 
 						glm::vec3(1.0f, 0.0f, 0.0f), 
 						glm::vec3(-3*cos(angle_radians), -2.0f, -3*sin(angle_radians)), // Dir. S.R. mundo
-						35.0f,
-						40.0f
+						35.0f, // 35.0
+						40.0f	// 40.0
 	};
 
 	struct MaterialInfo {
@@ -622,6 +627,10 @@ void display()
 	glUniform1f(locUniformLightcutOffExt, light.cutOffExt);
 
 
+	mvp = Projection * View * ModelSphere;
+	mv = View * ModelSphere;
+	nm = glm::mat3(glm::transpose(glm::inverse(mv)));
+
 	// Tarea por hacer: paso al shader de las matrices y las propiedades del material (gold)
 	glUniformMatrix4fv(locUniformMVPM, 1, GL_FALSE, &mvp[0][0]);
 	glUniformMatrix4fv(locUniformMVM, 1, GL_FALSE, &mv[0][0]);
@@ -634,6 +643,10 @@ void display()
 
 	// Dibuja Esfera.
 	drawSphere();
+
+	mvp = Projection * View * ModelTeapot;
+	mv = View * ModelTeapot;
+	nm = glm::mat3(glm::transpose(glm::inverse(mv)));
 
 	// Tarea por hacer: paso al shader de las matrices y las propiedades del material (brass)
 	glUniformMatrix4fv(locUniformMVPM, 1, GL_FALSE, &mvp[0][0]);
@@ -648,6 +661,11 @@ void display()
 	// Dibuja Tetera
 	drawTeapot();
 
+
+	mvp = Projection * View * ModelTorus;
+	mv = View * ModelTorus;
+	nm = glm::mat3(glm::transpose(glm::inverse(mv)));
+
 	// Tarea por hacer: paso al shader de las matrices y las propiedades del material (emerald)
 	glUniformMatrix4fv(locUniformMVPM, 1, GL_FALSE, &mvp[0][0]);
 	glUniformMatrix4fv(locUniformMVM, 1, GL_FALSE, &mv[0][0]);
@@ -660,6 +678,10 @@ void display()
 	// Dibuja Donut
 	drawTorus();
 
+	mvp = Projection * View * ModelPlane;
+	mv = View * ModelPlane;
+	nm = glm::mat3(glm::transpose(glm::inverse(mv)));
+
 	// Tarea por hacer: paso al shader de las matrices y las propiedades del material (perl)
 	glUniformMatrix4fv(locUniformMVPM, 1, GL_FALSE, &mvp[0][0]);
 	glUniformMatrix4fv(locUniformMVM, 1, GL_FALSE, &mv[0][0]);
@@ -671,6 +693,9 @@ void display()
 	glUniform1f(locUniformMaterialShininess, perl.shininess);
 	// Dibuja Plano
 	drawPlane();
+
+	glUniform1i(locUniformLightType, LIGHT_TYPE ? 1 : 0);
+	glUniform1i(locUniformShading, SHADING_TYPE);
 
 	glUseProgram(0);
 
@@ -703,6 +728,14 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'a': case 'A':
 		animation = !animation;
+		break;
+	case 't': case 'T':
+		++SHADING_TYPE;
+		if (SHADING_TYPE > 3)
+			SHADING_TYPE = 0;
+		break;
+	case 'l': case 'L':
+		LIGHT_TYPE = !LIGHT_TYPE;
 		break;
 	}
 }
